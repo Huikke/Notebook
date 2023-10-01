@@ -1,13 +1,36 @@
 # Simple notetaking tool
+
+# Print UI
+def ui():
+    print("Choose action:")
+    print("1. Overwrite")
+    print("2. Append")
+    print("3. Quit")
+
+
 try:
     with open("note.md", "r") as note:
         print("Current note:")
         print(note.read())
-        new_note = input("Edit note? (yes/no): ")
+        ui()
+        choice = input("Choice: ")
 except FileNotFoundError:
     print("No existing notes")
-    new_note = "yes"
+    choice = "1"
 
-if new_note == "yes" or new_note == "y":
+if choice == "1":
     with open("note.md", "w") as note:
-        note.write(input("Write note: "))
+        while True:
+            line = input()
+            if line == "":
+                break
+            note.write(line + "\n")
+elif choice == "2":
+    with open("note.md", "a") as note:
+        while True:
+            line = input()
+            if line == "":
+                break
+            note.write(line + "\n")
+elif choice == "3":
+    pass
