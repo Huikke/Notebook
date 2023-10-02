@@ -1,7 +1,7 @@
 # Simple notetaking tool
 import os
 
-# Create a new note to notes folder
+# Create a new note to notes folder (CLI only)
 def create_note():
     name = input("Note name: ")
     # If a note with same name already exist, abort immedially
@@ -21,6 +21,11 @@ def create_note():
                 note.write("\n")
             note.write(line)
             first = False
+
+# Handle creation and save to file (GUI only)
+def save_note(name, content):
+    with open(f"notes/{name}.md", "w") as note:
+        note.write(content)
 
 # Read a note in notes folder
 def view_note():
@@ -54,7 +59,7 @@ def list_notes():
     for name in names:
         print(f"- {name}")
 
-# Print UI
+# Print UI (CLI only)
 def ui():
     print("Choose action:")
     print("1. Create a new note")
@@ -63,20 +68,21 @@ def ui():
     print("4. Show notes")
     print("0. End program")
 
-# Application main loop
-while True:
-    ui()
-    choice = input("Choice: ")
-    if choice == "1":
-        create_note()
-    elif choice == "2":
-        view_note()
-    elif choice == "3":
-        delete_note()
-    elif choice == "4":
-        list_notes()
-    elif choice == "0":
-        break
-    else:
-        print("Invalid Input!")
-    print()
+if __name__ == "__main__":
+    # CLI application main loop
+    while True:
+        ui()
+        choice = input("Choice: ")
+        if choice == "1":
+            create_note()
+        elif choice == "2":
+            view_note()
+        elif choice == "3":
+            delete_note()
+        elif choice == "4":
+            list_notes()
+        elif choice == "0":
+            break
+        else:
+            print("Invalid Input!")
+        print()
