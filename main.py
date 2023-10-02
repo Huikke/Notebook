@@ -4,6 +4,12 @@ import os
 # Create a new note to notes folder
 def create_note():
     name = input("Note name: ")
+    # If a note with same name already exist, abort immedially
+    if os.path.exists(f"notes/{name}.md"):
+        print("Note with the same name already exist")
+        return
+    
+    # Gives user ability to write multiple lines until they linebreak at an empty line
     print("Note content: ")
     with open(f"notes/{name}.md", "w") as note:
         first = True
