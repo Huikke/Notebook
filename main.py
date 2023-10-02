@@ -3,9 +3,9 @@ import os
 
 # Create a new note to notes folder
 def create_note():
-    title = input("Note title: ")
+    name = input("Note name: ")
     print("Note content: ")
-    with open(f"notes/{title}.md", "w") as note:
+    with open(f"notes/{name}.md", "w") as note:
         first = True
         while True:
             line = input()
@@ -18,33 +18,42 @@ def create_note():
 
 # Read a note in notes folder
 def view_note():
-    title = input("Note title: ")
-    try:
-        with open(f"notes/{title}.md", "r") as note:
-            print(f"{title} content:")
+    name = input("Note name: ")
+    if os.path.exists(f"notes/{name}.md"):
+        with open(f"notes/{name}.md", "r") as note:
+            print(f"'{name}' content:")
             print(note.read())
-    except FileNotFoundError:
-        print("No existing notes")
+    else:
+        print(f"'{name}' does not exist")
+
+# Delete an existing note
+def delete_note():
+    name = input("Note name: ")
+    if os.path.exists(f"notes/{name}.md"):
+        os.remove(f"notes/{name}.md")
+        print(f"Successfully deleted '{name}'")
+    else:
+        print(f"'{name}' does not exist")
 
 # List all notes in notes folder
 def list_notes():
-    notes = []
+    names = []
     files = os.listdir("notes")
 
     for file in files:
         if file[-3:] == ".md":
-            notes.append(file)
+            names.append(file)
 
     print("Notes:")
-    for note in notes:
-        print(f"- {note}")
+    for name in names:
+        print(f"- {name}")
 
 # Print UI
 def ui():
     print("Choose action:")
     print("1. Create a new note")
     print("2. View a note")
-    # print("3. Delete a note")
+    print("3. Delete a note")
     print("4. Show notes")
     print("0. End program")
 
@@ -56,6 +65,8 @@ while True:
         create_note()
     elif choice == "2":
         view_note()
+    elif choice == "3":
+        delete_note()
     elif choice == "4":
         list_notes()
     elif choice == "0":
