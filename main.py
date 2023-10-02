@@ -1,5 +1,28 @@
 # Simple notetaking tool
 
+def create_note():
+    title = input("Note title: ")
+    print("Note content: ")
+    with open(f"notes/{title}.md", "w") as note:
+        first = True
+        while True:
+            line = input()
+            if line == "":
+                break
+            if first != True:
+                note.write("\n")
+            note.write(line)
+            first = False
+
+def view_note():
+    title = input("Note title: ")
+    try:
+        with open(f"notes/{title}.md", "r") as note:
+            print(f"{title} content:")
+            print(note.read())
+    except FileNotFoundError:
+        print("No existing notes")
+
 # Print UI
 def ui():
     print("Choose action:")
@@ -11,29 +34,11 @@ def ui():
 
 while True:
     ui()
-
     choice = input("Choice: ")
     if choice == "1":
-        title = input("Note title: ")
-        print("Note content: ")
-        with open(f"notes/{title}.md", "w") as note:
-            first = True
-            while True:
-                line = input()
-                if line == "":
-                    break
-                if first != True:
-                    note.write("\n")
-                note.write(line)
-                first = False
+        create_note()
     elif choice == "2":
-        title = input("Note title: ")
-        try:
-            with open(f"notes/{title}.md", "r") as note:
-                print(f"{title} content:")
-                print(note.read())
-        except FileNotFoundError:
-            print("No existing notes")
+        view_note()
     elif choice == "0":
         break
     else:
