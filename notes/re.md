@@ -24,3 +24,6 @@ resend
 resent?
 repair
 restart
+reunite
+restore
+rebuild

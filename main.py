@@ -28,12 +28,10 @@ def save_note(name, content):
         note.write(content)
 
 # Read a note in notes folder
-def view_note():
-    name = input("Note name: ")
+def view_note(name):
     if os.path.exists(f"notes/{name}.md"):
         with open(f"notes/{name}.md", "r") as note:
-            print(f"'{name}' content:")
-            print(note.read())
+            return note.read()
     else:
         print(f"'{name}' does not exist")
 
@@ -47,17 +45,15 @@ def delete_note():
         print(f"'{name}' does not exist")
 
 # List all notes in notes folder
-def list_notes():
+def note_names():
     names = []
     files = os.listdir("notes")
 
     for file in files:
         if file[-3:] == ".md":
-            names.append(file)
-
-    print("Notes:")
-    for name in names:
-        print(f"- {name}")
+            names.append(file[:-3])
+    
+    return names
 
 # Print UI (CLI only)
 def ui():
@@ -76,11 +72,17 @@ if __name__ == "__main__":
         if choice == "1":
             create_note()
         elif choice == "2":
-            view_note()
+            name = input("Note name: ")
+            content = view_note(name)
+            print(f"'{name}' content:")
+            print(content)
         elif choice == "3":
             delete_note()
         elif choice == "4":
-            list_notes()
+            names = note_names()
+            print("Notes:")
+            for name in names:
+                print(f"- {name}")
         elif choice == "0":
             break
         else:
