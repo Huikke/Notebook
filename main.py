@@ -23,7 +23,7 @@ def create_note():
             first = False
 
 # Handle creation and save to file (GUI only)
-def save_note(name, content):
+def save_to_file(name, content):
     with open(f"notes/{name}.md", "w") as note:
         note.write(content)
 
@@ -36,11 +36,10 @@ def view_note(name):
         print(f"'{name}' does not exist")
 
 # Delete an existing note
-def delete_note():
-    name = input("Note name: ")
+def delete_file(name):
     if os.path.exists(f"notes/{name}.md"):
         os.remove(f"notes/{name}.md")
-        print(f"Successfully deleted '{name}'")
+        # print(f"Successfully deleted '{name}'")
     else:
         print(f"'{name}' does not exist")
 
@@ -77,7 +76,9 @@ if __name__ == "__main__":
             print(f"'{name}' content:")
             print(content)
         elif choice == "3":
-            delete_note()
+            name = input("Note name: ")
+            delete_file(name)
+
         elif choice == "4":
             names = note_names()
             print("Notes:")
