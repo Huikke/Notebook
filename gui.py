@@ -16,7 +16,23 @@ def open_note(event):
     content.insert("1.0", note_content)
 
 # Removes name and content, simulating creating a new page
-def clear_page():
+def clear_page(force=False):
+    # Warning if there is unsave content
+    # Deleting a file doesn't warn
+    if force == False:
+        name_current = name.get()
+        content_current = content.get("1.0", "end-1c")
+        # Don't do anything if name and content is empty
+        if name_current == "" and content_current == "":
+            return
+
+        file_content = main.view_note(name.get())
+        # Compares content and if they differ, warn before proceeding
+        if file_content != content_current:
+            response = messagebox.askokcancel("Notebook", f"There is unsaved content. Proceed?", icon='warning')
+            if response == False:
+                return
+
     name.delete(0, END)
     content.delete("1.0", END)
 
@@ -39,10 +55,12 @@ def delete_note():
     response = messagebox.askokcancel("Notebook", f"Do you want to delete the note '{name.get()}'?", icon='warning')
     if response == True:
         main.delete_file(name.get())
+    else:
+        return
 
     # Update listbox and clear page after deletion
     listbox_update()
-    clear_page()
+    clear_page(True)
 
 # Updates listbox view
 def listbox_update():
